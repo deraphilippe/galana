@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="assets/bootstrap/css/style.css">
+    <title>Galana</title>
+    <script>
+        array=["phone","nom_cli","prenom_cli","adresse_cli","ville"];
+    </script>
+</head>
+<body>
+    <div class="modal-client">
+        <div class="modal fade" id="form">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title"><i class="icon icon-form"></i>Formulaire de personnel</h5>
+                        <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
+                        </button>
+                    </div>
+                    <form id="formulaire">
+                    <div class="modal-body" id="data-form"> 
+                        <input type="hidden" name="last" value="">                   
+                        <label>Nom</label><br>
+                        <input type="text" class="form-control"  name="nom_cli"><br>
+        
+                        <label>Prénom</label><br>
+                        <input type="text" class="form-control" name="prenom_cli"><br>
+        
+                        <label>Adresse</label><br>
+                        <input type="text" class="form-control" name="adresse_cli"><br>
+        
+                        <label>Ville</label><br>
+                        <input type="text" class="form-control" name="ville"><br>
+        
+                        <label>Téléphone</label><br>
+                        <input class="form-control" type="text" name="phone">
+                    </div>
+                    <div class="modal-footer">
+                        <a href="#" id="submit" name="ajouter" class="btn btn-success">Valider</a>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>        
+    </div>
+
+    <div class="col-md-12">
+        <div class="card">
+            <a href="#" class="btn btn-success" id="new" data-toggle="modal" data-target="#form">Nouveau client</a>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="card">
+            <table id="table">
+                <thead>
+                    <th>Action</th>
+                    <th>Téléphone</th>
+                    <th>Nom</th>
+                    <th>Prenom</th>
+                    <th>Adresse</th>
+                    <th>Ville</th>
+                </thead>
+                <tbody id="rows">
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+
+</body>
+<script src="assets/bootstrap/js/jquery.min.js"></script>
+<script src="assets/bootstrap/js/bootstrap.min.js"></script>
+<script src="ajax/send.js"></script>
+<script src="ajax/select.js"></script>
+<script>
+    serverSelect="server/client/select.php";
+    serverInsert="server/client/insert.php";
+    serverUpdate="server/client/update.php";
+
+    select(serverSelect, array);
+    document.getElementById("submit").addEventListener('click', function(){       
+        var last=document.getElementById("formulaire").last.value;
+        console.log(last);
+        var form=getForm();
+        if(last==""){
+            send(serverInsert, serverSelect, form, array);
+        }
+        else{
+            send(serverUpdate, serverSelect, form, array);
+        }
+        document.getElementById("formulaire").reset();
+    });
+
+    document.getElementById("new").addEventListener('click',function(){
+        document.getElementById("formulaire").last.value="";
+        console.log(document.getElementById("formulaire").action.value);
+        document.getElementById("formulaire").reset();
+    });
+</script>
+</html>
